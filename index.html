@@ -3,7 +3,13 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./vite.svg" />
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="apple-touch-icon" href="./icon-192.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Скульптор" />
+    <meta name="theme-color" content="#101010" />
+    <link rel="icon" type="image/png" href="./icon-192.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FitFlow - Начать</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -63,5 +69,189 @@
         </div>
     </div>
 
-  </body>
+  <!-- ===== PWA INSTALL OVERLAY ===== -->
+  <div id="pwa-install-overlay" style="
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #101010;
+    color: #fff;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+  ">
+    <img src="./icon-192.png" alt="Скульптор" style="width:96px;height:96px;border-radius:22px;margin-bottom:1.5rem;box-shadow:0 8px 32px rgba(231,252,187,0.2);">
+    <h1 style="font-size:1.8rem;font-weight:700;margin:0 0 0.5rem;">Скульптор</h1>
+    <p style="font-size:1rem;color:#a0a0a0;margin:0 0 2rem;">ЯГОДИЦЫ И ПРЕСС</p>
+
+    <!-- Android Chrome -->
+    <div id="pwa-android-chrome" style="display:none;max-width:320px;">
+      <button id="pwa-install-btn" style="
+        width:100%;padding:1rem 2rem;background:#e7fcbb;color:#232220;
+        font-size:1.1rem;font-weight:700;border:none;border-radius:16px;
+        cursor:pointer;margin-bottom:1rem;box-shadow:0 4px 20px rgba(231,252,187,0.3);
+      ">&#11015; Установить приложение</button>
+      <p id="pwa-no-prompt-hint" style="display:none;font-size:0.85rem;color:#777;line-height:1.6;">
+        Найдите значок <strong>⊞</strong> или <strong>⋮</strong> в адресной строке Chrome и нажмите <strong>«Установить»</strong>
+      </p>
+    </div>
+
+    <!-- iOS Safari -->
+    <div id="pwa-ios-safari" style="display:none;max-width:320px;">
+      <p style="font-size:1rem;color:#e7fcbb;font-weight:600;margin-bottom:1rem;">Установите приложение на экран Домой:</p>
+      <div style="background:#1e1e1e;border-radius:16px;padding:1.2rem;text-align:left;line-height:2;font-size:0.95rem;">
+        <div>1. Нажмите <strong style="color:#e7fcbb;">&#x1F4E4; Поделиться</strong> внизу экрана</div>
+        <div>2. Выберите <strong style="color:#e7fcbb;">«На экран &ldquo;Домой&rdquo;»</strong></div>
+        <div>3. Нажмите <strong style="color:#e7fcbb;">«Добавить»</strong></div>
+      </div>
+    </div>
+
+    <!-- iOS WebView (Telegram/VK/Instagram) -->
+    <div id="pwa-ios-webview" style="display:none;max-width:320px;">
+      <p style="font-size:1rem;color:#a0a0a0;margin-bottom:1.2rem;">Для установки откройте сайт в Safari:</p>
+      <a id="pwa-open-safari-btn" href="#" style="
+        display:block;width:100%;padding:1rem 2rem;background:#e7fcbb;color:#232220;
+        font-size:1.1rem;font-weight:700;border-radius:16px;text-decoration:none;
+        box-shadow:0 4px 20px rgba(231,252,187,0.3);
+      ">&#x1F9ED; Открыть в Safari</a>
+    </div>
+
+    <!-- Android WebView (Telegram/VK/Instagram) -->
+    <div id="pwa-android-webview" style="display:none;max-width:320px;">
+      <p style="font-size:1rem;color:#a0a0a0;margin-bottom:1.2rem;">Для установки откройте сайт в Chrome:</p>
+      <a id="pwa-open-chrome-btn" href="#" style="
+        display:block;width:100%;padding:1rem 2rem;background:#e7fcbb;color:#232220;
+        font-size:1.1rem;font-weight:700;border-radius:16px;text-decoration:none;
+        box-shadow:0 4px 20px rgba(231,252,187,0.3);
+      ">&#x1F9ED; Открыть в Chrome</a>
+    </div>
+
+    <!-- Desktop non-Chrome -->
+    <div id="pwa-desktop-other" style="display:none;max-width:320px;">
+      <p style="font-size:1rem;color:#a0a0a0;margin-bottom:1.2rem;">Откройте ссылку в Google Chrome для установки:</p>
+      <button id="pwa-copy-link-btn" style="
+        width:100%;padding:1rem 2rem;background:#e7fcbb;color:#232220;
+        font-size:1.1rem;font-weight:700;border:none;border-radius:16px;
+        cursor:pointer;box-shadow:0 4px 20px rgba(231,252,187,0.3);
+      ">&#x1F4CB; Скопировать ссылку</button>
+      <p id="pwa-copy-success" style="display:none;margin-top:0.8rem;color:#e7fcbb;font-size:0.9rem;">Ссылка скопирована! Откройте в Chrome.</p>
+    </div>
+
+    <!-- Desktop Chrome -->
+    <div id="pwa-desktop-chrome" style="display:none;max-width:320px;">
+      <button id="pwa-desktop-install-btn" style="
+        width:100%;padding:1rem 2rem;background:#e7fcbb;color:#232220;
+        font-size:1.1rem;font-weight:700;border:none;border-radius:16px;
+        cursor:pointer;margin-bottom:1rem;box-shadow:0 4px 20px rgba(231,252,187,0.3);
+      ">&#11015; Установить приложение</button>
+      <p id="pwa-desktop-no-prompt" style="display:none;font-size:0.85rem;color:#777;line-height:1.6;">
+        Найдите значок <strong>⊞</strong> в адресной строке Chrome и нажмите <strong>«Установить»</strong>
+      </p>
+    </div>
+  </div>
+
+  <script>
+  (function() {
+    // ===== SERVICE WORKER =====
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(console.error);
+      });
+    }
+
+    // ===== PWA INSTALL LOGIC =====
+    const overlay = document.getElementById('pwa-install-overlay');
+    let deferredPrompt = null;
+
+    const ua = navigator.userAgent;
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches
+      || window.navigator.standalone === true;
+
+    // Если уже установлено — не показываем overlay
+    if (isStandalone) return;
+
+    const isIOS = /iPhone|iPad|iPod/i.test(ua);
+    const isAndroid = /Android/i.test(ua);
+    const isChrome = /Chrome/i.test(ua) && !/Chromium|Edge/i.test(ua);
+    const isSafari = /Safari/i.test(ua) && !/Chrome/i.test(ua);
+    const isWebView = /FBAN|FBAV|Instagram|VKShare|vk_webview|TelegramWebview|WebView|(wv)/i.test(ua);
+    const isDesktop = !isIOS && !isAndroid;
+
+    // Показываем overlay
+    overlay.style.display = 'flex';
+
+    function showPanel(id) {
+      ['pwa-android-chrome','pwa-ios-safari','pwa-ios-webview','pwa-android-webview','pwa-desktop-other','pwa-desktop-chrome']
+        .forEach(p => document.getElementById(p).style.display = 'none');
+      document.getElementById(id).style.display = 'block';
+    }
+
+    window.addEventListener('beforeinstallprompt', e => {
+      e.preventDefault();
+      deferredPrompt = e;
+    });
+
+    if (isIOS) {
+      if (isWebView) {
+        showPanel('pwa-ios-webview');
+        const safariBtnEl = document.getElementById('pwa-open-safari-btn');
+        safariBtnEl.href = 'x-safari-https://' + location.host + location.pathname;
+      } else {
+        showPanel('pwa-ios-safari'); // Safari или другой браузер iOS
+      }
+    } else if (isAndroid) {
+      if (isWebView) {
+        showPanel('pwa-android-webview');
+        const chromeBtnEl = document.getElementById('pwa-open-chrome-btn');
+        chromeBtnEl.href = 'intent://' + location.host + location.pathname + '#Intent;scheme=https;package=com.android.chrome;end';
+      } else {
+        showPanel('pwa-android-chrome');
+        setTimeout(() => {
+          if (!deferredPrompt) {
+            document.getElementById('pwa-no-prompt-hint').style.display = 'block';
+            document.getElementById('pwa-install-btn').style.display = 'none';
+          }
+        }, 1500);
+        document.getElementById('pwa-install-btn').addEventListener('click', async () => {
+          if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') overlay.style.display = 'none';
+            deferredPrompt = null;
+          }
+        });
+      }
+    } else {
+      // Desktop
+      if (isChrome) {
+        showPanel('pwa-desktop-chrome');
+        setTimeout(() => {
+          if (!deferredPrompt) {
+            document.getElementById('pwa-desktop-no-prompt').style.display = 'block';
+            document.getElementById('pwa-desktop-install-btn').style.display = 'none';
+          }
+        }, 1500);
+        document.getElementById('pwa-desktop-install-btn').addEventListener('click', async () => {
+          if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') overlay.style.display = 'none';
+            deferredPrompt = null;
+          }
+        });
+      } else {
+        showPanel('pwa-desktop-other');
+        document.getElementById('pwa-copy-link-btn').addEventListener('click', () => {
+          navigator.clipboard.writeText(location.href).then(() => {
+            document.getElementById('pwa-copy-success').style.display = 'block';
+          });
+        });
+      }
+    }
+  })();
+  </script>
 </html>
